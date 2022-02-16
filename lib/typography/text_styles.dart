@@ -52,10 +52,7 @@ class PuzzleTextStyle {
   /// Headline 5 text style
   static TextStyle get headline5 {
     return _baseTextStyle.copyWith(
-      fontSize: 16,
-      height: 1.25,
-      fontWeight: PuzzleFontWeight.bold,
-    );
+        fontSize: 18, height: 1.25, fontWeight: FontWeight.w400);
   }
 
   /// Body Large Bold text style

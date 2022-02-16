@@ -29,8 +29,8 @@ class PuzzleButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 145,
-      height: 44,
+      width: 150,
+      height: 50,
       child: TextButton(
         style: TextButton.styleFrom(
           padding: EdgeInsets.zero,
@@ -39,7 +39,7 @@ class PuzzleButton extends StatelessWidget {
           onSurface: backgroundColor,
           textStyle: PuzzleTextStyle.headline5,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(24),
+            borderRadius: BorderRadius.circular(10),
           ),
         ),
         onPressed: onPressed,

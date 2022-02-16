@@ -32,6 +32,7 @@ class SimplePuzzleLayoutDelegate extends PuzzleLayoutDelegate {
     );
   }
 
+//尾部部分的按钮
   @override
   Widget endSectionBuilder(PuzzleState state) {
     return Column(
@@ -395,7 +396,7 @@ class SimplePuzzleShuffleButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return PuzzleButton(
       textColor: PuzzleColors.primary0,
-      backgroundColor: PuzzleColors.primary6,
+      backgroundColor: Colors.black.withOpacity(0.3),
       onPressed: () => context.read<PuzzleBloc>().add(const PuzzleReset()),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
