@@ -21,7 +21,6 @@ class PuzzlePage extends StatelessWidget {
     return BlocProvider(
       create: (context) => ThemeBloc(
         themes: const [
-          // PuzzleTheme(),
           SimpleTheme(),
         ],
       ),
@@ -52,7 +51,7 @@ class PuzzleView extends StatelessWidget {
           ticker: const Ticker(),
         ),
         child: BlocProvider(
-          //修改里面的数字会变大，变小
+          //PuzzleBloc决定了这个拼图的大小
           create: (context) => PuzzleBloc(2)
             ..add(
               PuzzleInitialized(
@@ -76,26 +75,22 @@ class _Puzzle extends StatelessWidget {
     final theme = context.select((ThemeBloc bloc) => bloc.state.theme);
     final state = context.select((PuzzleBloc bloc) => bloc.state);
 
+//布局构造器：根据不同的可获得的页面大小来构造不同样式的页面
     return LayoutBuilder(
       builder: (context, constraints) {
         return Stack(
           children: [
+            //构造背景
             theme.layoutDelegate.backgroundBuilder(state),
+            //滑动的组件，里面的东西的最小的高度是 可获得空间的最大高度
+            //也就是占满所有可用的空间
             SingleChildScrollView(
               child: ConstrainedBox(
                 constraints: BoxConstraints(
                   minHeight: constraints.maxHeight,
                 ),
-                child: Column(
-                  children: const [
-                    //header根据不同的浏览器大小决定显示的布局和内容
-                    _PuzzleHeader(
-                      key: Key('puzzle_header'),
-                    ),
-                    _PuzzleSections(
-                      key: Key('puzzle_sections'),
-                    ),
-                  ],
+                child: const _PuzzleSections(
+                  key: Key('puzzle_sections'),
                 ),
               ),
             ),
@@ -106,89 +101,22 @@ class _Puzzle extends StatelessWidget {
   }
 }
 
-class _PuzzleHeader extends StatelessWidget {
-  const _PuzzleHeader({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      //原来是96
-      height: 96,
-      child: ResponsiveLayoutBuilder(
-        small: (context, child) => const Center(
-          child: _PuzzleLogo(),
-        ),
-        medium: (context, child) => Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 50,
-          ),
-          child: Row(
-            children: const [
-              _PuzzleLogo(),
-            ],
-          ),
-        ),
-        large: (context, child) => Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 50,
-          ),
-          child: Row(
-            children: const [
-              _PuzzleLogo(),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _PuzzleLogo extends StatelessWidget {
-  const _PuzzleLogo({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    //根据不同的屏幕大小建立不同的layout，图片大小
-    return ResponsiveLayoutBuilder(
-      small: (context, child) => const SizedBox(
-        height: 24,
-        child: FlutterLogo(
-          style: FlutterLogoStyle.horizontal,
-          size: 86,
-        ),
-      ),
-      medium: (context, child) => const SizedBox(
-        height: 29,
-        child: FlutterLogo(
-          style: FlutterLogoStyle.horizontal,
-          size: 104,
-        ),
-      ),
-      large: (context, child) => const SizedBox(
-        height: 32,
-        child: FlutterLogo(
-          style: FlutterLogoStyle.horizontal,
-          size: 114,
-        ),
-      ),
-    );
-  }
-}
-
 class _PuzzleSections extends StatelessWidget {
   const _PuzzleSections({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    //这个要用到theme bloc 获得 puzzle theme
+    //和 puzzle bloc 获得puzzle state 看是不是成功了
     final theme = context.select((ThemeBloc bloc) => bloc.state.theme);
     final state = context.select((PuzzleBloc bloc) => bloc.state);
 
+//这里这块根据不同的屏幕大小，返回不同的widget效果
     return ResponsiveLayoutBuilder(
       small: (context, child) => Column(
         children: [
           theme.layoutDelegate.startSectionBuilder(state),
           //要给puzzle Board 加入state
-
           if (state.puzzleStatus == PuzzleStatus.complete)
             SizedBox(
               height: 400,

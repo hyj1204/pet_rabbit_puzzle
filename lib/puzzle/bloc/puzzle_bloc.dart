@@ -19,7 +19,8 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
   final int _size;
 
   final Random? random;
-
+  
+  //初始化拼图的时候
   void _onPuzzleInitialized(
     PuzzleInitialized event,
     Emitter<PuzzleState> emit,

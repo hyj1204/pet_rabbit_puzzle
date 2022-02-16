@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -51,41 +53,59 @@ class SimplePuzzleLayoutDelegate extends PuzzleLayoutDelegate {
     );
   }
 
+//背景显示的widgets
   @override
   Widget backgroundBuilder(PuzzleState state) {
-    return Positioned(
-      right: 0,
-      bottom: 0,
-      child: ResponsiveLayoutBuilder(
-        small: (_, __) => SizedBox(
-          width: 184,
-          height: 118,
-          child: Image.asset(
-            'assets/images/simple_dash_small.png',
-            key: const Key('simple_puzzle_dash_small'),
-          ),
-        ),
-        medium: (_, __) => SizedBox(
-          width: 380.44,
-          height: 214,
-          child: Image.asset(
-            'assets/images/simple_dash_medium.png',
-            key: const Key('simple_puzzle_dash_medium'),
-          ),
-        ),
-        large: (_, __) => Padding(
-          padding: const EdgeInsets.only(bottom: 53),
-          child: SizedBox(
-            width: 568.99,
-            height: 320,
-            child: Image.asset(
-              'assets/images/simple_dash_large.png',
-              key: const Key('simple_puzzle_dash_large'),
-            ),
-          ),
-        ),
+    //显示图片的模糊效果
+    return Stack(children: [
+      Container(
+        decoration: const BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage('images/rabbitImage.png'),
+                fit: BoxFit.cover)),
       ),
-    );
+      Positioned.fill(
+          child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+        child: Container(
+          color: Colors.white.withOpacity(0.5),
+        ),
+      )),
+    ]);
+    //永远在右下角放相应大小的图标
+    // return Positioned(
+    //   right: 0,
+    //   bottom: 0,
+    //   child: ResponsiveLayoutBuilder(
+    //     small: (_, __) => SizedBox(
+    //       width: 184,
+    //       height: 118,
+    //       child: Image.asset(
+    //         'assets/images/simple_dash_small.png',
+    //         key: const Key('simple_puzzle_dash_small'),
+    //       ),
+    //     ),
+    //     medium: (_, __) => SizedBox(
+    //       width: 380.44,
+    //       height: 214,
+    //       child: Image.asset(
+    //         'assets/images/simple_dash_medium.png',
+    //         key: const Key('simple_puzzle_dash_medium'),
+    //       ),
+    //     ),
+    //     large: (_, __) => Padding(
+    //       padding: const EdgeInsets.only(bottom: 53),
+    //       child: SizedBox(
+    //         width: 568.99,
+    //         height: 320,
+    //         child: Image.asset(
+    //           'assets/images/simple_dash_large.png',
+    //           key: const Key('simple_puzzle_dash_large'),
+    //         ),
+    //       ),
+    //     ),
+    //   ),
+    // );
   }
 
   @override
