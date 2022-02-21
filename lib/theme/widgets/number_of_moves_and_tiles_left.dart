@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_puzzle/colors/colors.dart';
 import 'package:flutter_puzzle/l10n/l10n.dart';
 import 'package:flutter_puzzle/layout/layout.dart';
 import 'package:flutter_puzzle/theme/theme.dart';
@@ -30,9 +31,8 @@ class NumberOfMovesAndTilesLeft extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.select((ThemeBloc bloc) => bloc.state.theme);
     final l10n = context.l10n;
-    final textColor = color ?? theme.defaultColor;
+    final textColor = color ?? PuzzleColors.grey1;
 
     return ResponsiveLayoutBuilder(
       small: (context, child) => Center(child: child),

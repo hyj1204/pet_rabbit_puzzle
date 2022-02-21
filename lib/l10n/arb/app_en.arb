@@ -1,6 +1,6 @@
 {
     "@@locale": "en",
-    "puzzleChallengeTitle": "Puzzle Challenge",
+    "puzzleChallengeTitle": "Pet me Puzzle",
     "@puzzleChallengeTitle": {
         "description": "Shown as the title of the puzzle"
     },
@@ -16,7 +16,11 @@
     "@puzzleShuffle": {
         "description": "Shown on the button that shuffle the puzzle"
     },
-    "puzzleCompleted": "Well done. Congrats!",
+     "puzzleRestart": "Restart",
+    "@puzzleShuffle": {
+        "description": "Shown on the button that shuffle the puzzle"
+    },
+    "puzzleCompleted": "Well Done!",
     "@puzzleCompleted": {
         "description": "Shown as the success state when the puzzle is completed"
     }

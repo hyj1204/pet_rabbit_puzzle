@@ -116,36 +116,24 @@ class _PuzzleSections extends StatelessWidget {
       small: (context, child) => Column(
         children: [
           theme.layoutDelegate.startSectionBuilder(state),
-          //要给puzzle Board 加入state
-          if (state.puzzleStatus == PuzzleStatus.complete)
-            SizedBox(
-              height: 400,
-              width: 400,
-              child: Image.asset(
-                'assets/puzzles/rabbit/gif/rabbitGif.gif',
-              ),
-            )
-          else
-            const PuzzleBoard(),
-
+          theme.layoutDelegate.puzzleSectionBuilder(state),
           theme.layoutDelegate.endSectionBuilder(state),
         ],
       ),
       medium: (context, child) => Column(
         children: [
-          //根据状态来显示不一样的标题
           theme.layoutDelegate.startSectionBuilder(state),
-          const PuzzleBoard(),
+          theme.layoutDelegate.puzzleSectionBuilder(state),
           theme.layoutDelegate.endSectionBuilder(state),
         ],
       ),
       large: (context, child) => Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Expanded(
             child: theme.layoutDelegate.startSectionBuilder(state),
           ),
-          const PuzzleBoard(),
+          theme.layoutDelegate.puzzleSectionBuilder(state),
           Expanded(
             child: theme.layoutDelegate.endSectionBuilder(state),
           ),

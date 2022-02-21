@@ -9,7 +9,6 @@ import 'package:flutter_puzzle/layout/layout.dart';
 import 'package:flutter_puzzle/models/models.dart';
 import 'package:flutter_puzzle/puzzle/puzzle.dart';
 import 'package:flutter_puzzle/theme/theme.dart';
-import 'package:flutter_puzzle/typography/typography.dart';
 
 /// {@template simple_puzzle_layout_delegate}
 /// A delegate for computing the layout of the puzzle UI
@@ -32,6 +31,42 @@ class SimplePuzzleLayoutDelegate extends PuzzleLayoutDelegate {
     );
   }
 
+  @override
+  Widget puzzleSectionBuilder(PuzzleState state) {
+    return AnimatedSwitcher(
+      duration: const Duration(seconds: 3),
+      child: state.puzzleStatus == PuzzleStatus.complete
+          ? ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              //不同尺寸的时候，显示的图片不同
+              child: ResponsiveLayoutBuilder(
+                small: (_, child) => SizedBox(
+                  height: 300,
+                  width: 300,
+                  child: Image.asset(
+                    'assets/puzzles/rabbit/gif/rabbitGif.gif',
+                  ),
+                ),
+                medium: (_, child) => SizedBox(
+                  height: 400,
+                  width: 400,
+                  child: Image.asset(
+                    'assets/puzzles/rabbit/gif/rabbitGif.gif',
+                  ),
+                ),
+                large: (_, child) => SizedBox(
+                  height: 500,
+                  width: 500,
+                  child: Image.asset(
+                    'assets/puzzles/rabbit/gif/rabbitGif.gif',
+                  ),
+                ),
+              ),
+            )
+          : const PuzzleBoard(),
+    );
+  }
+
 //尾部部分的按钮
   @override
   Widget endSectionBuilder(PuzzleState state) {
@@ -42,8 +77,8 @@ class SimplePuzzleLayoutDelegate extends PuzzleLayoutDelegate {
           medium: 48,
         ),
         ResponsiveLayoutBuilder(
-          small: (_, child) => const SimplePuzzleShuffleButton(),
-          medium: (_, child) => const SimplePuzzleShuffleButton(),
+          small: (_, child) => SimplePuzzleShuffleButton(state: state),
+          medium: (_, child) => SimplePuzzleShuffleButton(state: state),
           large: (_, __) => const SizedBox(),
         ),
         const ResponsiveGap(
@@ -73,40 +108,6 @@ class SimplePuzzleLayoutDelegate extends PuzzleLayoutDelegate {
         ),
       )),
     ]);
-    //永远在右下角放相应大小的图标
-    // return Positioned(
-    //   right: 0,
-    //   bottom: 0,
-    //   child: ResponsiveLayoutBuilder(
-    //     small: (_, __) => SizedBox(
-    //       width: 184,
-    //       height: 118,
-    //       child: Image.asset(
-    //         'assets/images/simple_dash_small.png',
-    //         key: const Key('simple_puzzle_dash_small'),
-    //       ),
-    //     ),
-    //     medium: (_, __) => SizedBox(
-    //       width: 380.44,
-    //       height: 214,
-    //       child: Image.asset(
-    //         'assets/images/simple_dash_medium.png',
-    //         key: const Key('simple_puzzle_dash_medium'),
-    //       ),
-    //     ),
-    //     large: (_, __) => Padding(
-    //       padding: const EdgeInsets.only(bottom: 53),
-    //       child: SizedBox(
-    //         width: 568.99,
-    //         height: 320,
-    //         child: Image.asset(
-    //           'assets/images/simple_dash_large.png',
-    //           key: const Key('simple_puzzle_dash_large'),
-    //         ),
-    //       ),
-    //     ),
-    //   ),
-    // );
   }
 
   @override
@@ -134,6 +135,7 @@ class SimplePuzzleLayoutDelegate extends PuzzleLayoutDelegate {
               key: const Key('simple_puzzle_board_medium'),
               size: size,
               tiles: tiles,
+              spacing: 10,
             ),
           ),
           large: (_, __) => SizedBox.square(
@@ -142,6 +144,7 @@ class SimplePuzzleLayoutDelegate extends PuzzleLayoutDelegate {
               key: const Key('simple_puzzle_board_large'),
               size: size,
               tiles: tiles,
+              spacing: 10,
             ),
           ),
         ),
@@ -158,19 +161,16 @@ class SimplePuzzleLayoutDelegate extends PuzzleLayoutDelegate {
       small: (_, __) => SimplePuzzleTile(
         key: Key('simple_puzzle_tile_${tile.value}_small'),
         tile: tile,
-        tileFontSize: _TileFontSize.small,
         state: state,
       ),
       medium: (_, __) => SimplePuzzleTile(
         key: Key('simple_puzzle_tile_${tile.value}_medium'),
         tile: tile,
-        tileFontSize: _TileFontSize.medium,
         state: state,
       ),
       large: (_, __) => SimplePuzzleTile(
         key: Key('simple_puzzle_tile_${tile.value}_large'),
         tile: tile,
-        tileFontSize: _TileFontSize.large,
         state: state,
       ),
     );
@@ -205,11 +205,10 @@ class SimpleStartSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const ResponsiveGap(
-          small: 20,
+          small: 25,
           medium: 83,
           large: 151,
         ),
-        const PuzzleName(),
         const ResponsiveGap(large: 16),
         SimplePuzzleTitle(
           //根据状态来显示内容
@@ -224,11 +223,13 @@ class SimpleStartSection extends StatelessWidget {
           numberOfMoves: state.numberOfMoves,
           numberOfTilesLeft: state.numberOfTilesLeft,
         ),
-        const ResponsiveGap(large: 32),
+        const ResponsiveGap(small: 6, medium: 8, large: 32),
         ResponsiveLayoutBuilder(
           small: (_, __) => const SizedBox(),
           medium: (_, __) => const SizedBox(),
-          large: (_, __) => const SimplePuzzleShuffleButton(),
+          large: (_, __) => SimplePuzzleShuffleButton(
+            state: state,
+          ),
         ),
       ],
     );
@@ -307,12 +308,6 @@ class SimplePuzzleBoard extends StatelessWidget {
   }
 }
 
-abstract class _TileFontSize {
-  static double small = 36;
-  static double medium = 50;
-  static double large = 54;
-}
-
 /// {@template simple_puzzle_tile}
 /// Displays the puzzle tile associated with [tile] and
 /// the font size of [tileFontSize] based on the puzzle [state].
@@ -323,22 +318,17 @@ class SimplePuzzleTile extends StatelessWidget {
   const SimplePuzzleTile({
     Key? key,
     required this.tile,
-    required this.tileFontSize,
     required this.state,
   }) : super(key: key);
 
   /// The tile to be displayed.
   final Tile tile;
 
-  /// The font size of the tile to be displayed.
-  final double tileFontSize;
-
   /// The state of the puzzle.
   final PuzzleState state;
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.select((ThemeBloc bloc) => bloc.state.theme);
 //每一个tile都是一个text button
     return SizedBox(
       height: 200,
@@ -394,7 +384,10 @@ class SimplePuzzleTile extends StatelessWidget {
 @visibleForTesting
 class SimplePuzzleShuffleButton extends StatelessWidget {
   /// {@macro puzzle_shuffle_button}
-  const SimplePuzzleShuffleButton({Key? key}) : super(key: key);
+  const SimplePuzzleShuffleButton({Key? key, required this.state})
+      : super(key: key);
+
+  final PuzzleState state;
 
   @override
   Widget build(BuildContext context) {
@@ -411,7 +404,11 @@ class SimplePuzzleShuffleButton extends StatelessWidget {
             height: 17,
           ),
           const Gap(10),
-          Text(context.l10n.puzzleShuffle),
+          //完成拼图的时候按钮显示‘Restart'
+          if (state.puzzleStatus == PuzzleStatus.complete)
+            Text(context.l10n.puzzleRestart)
+          else
+            Text(context.l10n.puzzleShuffle),
         ],
       ),
     );
