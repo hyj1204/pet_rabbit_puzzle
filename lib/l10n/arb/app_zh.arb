@@ -1,26 +1,26 @@
 {
-    "@@locale": "en",
-    "puzzleChallengeTitle": "Pet Rabbit Puzzle",
+    "@@locale": "zh",
+    "puzzleChallengeTitle": "小兔拼图",
     "@puzzleChallengeTitle": {
         "description": "Shown as the title of the puzzle"
     },
-    "puzzleNumberOfMoves": "Moves",
+    "puzzleNumberOfMoves": "步",
     "@puzzleNumberOfMoves": {
         "description": "Indicates how many moves have been made on the current puzzle"
     },
-    "puzzleNumberOfTilesLeft": "Tiles",
+    "puzzleNumberOfTilesLeft": "格",
     "@puzzleNumberOfTilesLeft": {
         "description": "Indicates how many puzzle tiles are not in their correct position"
     },
-    "puzzleShuffle": "Shuffle",
+    "puzzleShuffle": "重新洗牌",
     "@puzzleShuffle": {
         "description": "Shown on the button that shuffle the puzzle"
     },
-     "puzzleRestart": "Restart",
+     "puzzleRestart": "重新开始",
     "@puzzleShuffle": {
         "description": "Shown on the button that shuffle the puzzle"
     },
-    "puzzleCompleted": "Well Done!",
+    "puzzleCompleted": "恭喜完成拼图!",
     "@puzzleCompleted": {
         "description": "Shown as the success state when the puzzle is completed"
     }
