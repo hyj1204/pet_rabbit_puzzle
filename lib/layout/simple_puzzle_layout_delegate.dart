@@ -93,7 +93,7 @@ class SimplePuzzleLayoutDelegate extends PuzzleLayoutDelegate {
       Container(
         decoration: const BoxDecoration(
             image: DecorationImage(
-                image: AssetImage('images/rabbitImage.png'),
+                image: AssetImage('assets/images/rabbitImage.png'),
                 fit: BoxFit.cover)),
       ),
       state.showPromptImage

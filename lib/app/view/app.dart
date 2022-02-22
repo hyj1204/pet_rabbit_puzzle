@@ -19,6 +19,14 @@ class _AppState extends State<App> {
         Image.asset('assets/images/shuffle_icon.png').image,
         context,
       );
+      precacheImage(
+        Image.asset('assets/images/rabbitImage.png').image,
+        context,
+      );
+      precacheImage(
+        Image.asset('assets/puzzles/rabbit/gif/rabbitGif.gif').image,
+        context,
+      );
     });
   }
 

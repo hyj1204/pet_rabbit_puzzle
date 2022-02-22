@@ -55,6 +55,7 @@ linked_*.ds
 unlinked.ds
 unlinked_spec.ds
 .fvm/
+pubspec.lock
 
 # Android related
 **/android/**/gradle-wrapper.jar
@@ -96,6 +97,7 @@ unlinked_spec.ds
 **/ios/Flutter/flutter_export_environment.sh
 **/ios/ServiceDefinitions.json
 **/ios/Runner/GeneratedPluginRegistrant.*
+**/ios/Podfile.lock
 
 # Coverage
 coverage/
