@@ -38,10 +38,8 @@ class PuzzleView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //select是只有theme有变化的之后才更新
     final theme = context.select((ThemeBloc bloc) => bloc.state.theme);
 
-    /// Shuffle only if the current theme is Simple.
     final shufflePuzzle = theme is SimpleTheme;
 
     return Scaffold(
@@ -51,7 +49,6 @@ class PuzzleView extends StatelessWidget {
           ticker: const Ticker(),
         ),
         child: BlocProvider(
-          //PuzzleBloc决定了这个拼图的大小
           create: (context) => PuzzleBloc(4)
             ..add(
               PuzzleInitialized(
@@ -75,12 +72,10 @@ class _Puzzle extends StatelessWidget {
     final theme = context.select((ThemeBloc bloc) => bloc.state.theme);
     final state = context.select((PuzzleBloc bloc) => bloc.state);
 
-//布局构造器：根据不同的可获得的页面大小来构造不同样式的页面
     return LayoutBuilder(
       builder: (context, constraints) {
         return Stack(
           children: [
-            //构造背景
             theme.layoutDelegate.backgroundBuilder(state),
             state.showPromptImage
                 ? Container()
@@ -121,12 +116,9 @@ class _PuzzleSections extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //这个要用到theme bloc 获得 puzzle theme
-    //和 puzzle bloc 获得puzzle state 看是不是成功了
     final theme = context.select((ThemeBloc bloc) => bloc.state.theme);
     final state = context.select((PuzzleBloc bloc) => bloc.state);
 
-//这里这块根据不同的屏幕大小，返回不同的widget效果
     return ResponsiveLayoutBuilder(
       small: (context, child) => Column(
         children: [
@@ -171,17 +163,14 @@ class PuzzleBoard extends StatelessWidget {
     final puzzle = context.select((PuzzleBloc bloc) => bloc.state.puzzle);
 
     final size = puzzle.getDimension();
-    //获得puzzle的尺寸
     if (size == 0) return const CircularProgressIndicator();
 
     return BlocListener<PuzzleBloc, PuzzleState>(
       listener: (context, state) {
-        //有计数器并且拼完的时候，停止计数器
         if (theme.hasTimer && state.puzzleStatus == PuzzleStatus.complete) {
           context.read<TimerBloc>().add(const TimerStopped());
         }
       },
-      //建立不同大小puzzle
       child: theme.layoutDelegate.boardBuilder(
         size,
         puzzle.tiles
@@ -211,7 +200,6 @@ class _PuzzleTile extends StatelessWidget {
     final theme = context.select((ThemeBloc bloc) => bloc.state.theme);
     final state = context.select((PuzzleBloc bloc) => bloc.state);
 
-//是空白的时候建立空白的tile，不是空白的时候，就修改当前这个tile的状态
     return tile.isWhitespace
         ? theme.layoutDelegate.whitespaceTileBuilder()
         : theme.layoutDelegate.tileBuilder(tile, state);

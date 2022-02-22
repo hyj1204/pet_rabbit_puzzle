@@ -66,7 +66,6 @@ class SimplePuzzleLayoutDelegate extends PuzzleLayoutDelegate {
     );
   }
 
-//尾部部分的按钮
   @override
   Widget endSectionBuilder(PuzzleState state) {
     return Column(
@@ -88,7 +87,6 @@ class SimplePuzzleLayoutDelegate extends PuzzleLayoutDelegate {
     );
   }
 
-//背景显示的widgets
   @override
   Widget backgroundBuilder(PuzzleState state) {
     return Stack(children: [
@@ -212,7 +210,6 @@ class SimpleStartSection extends StatelessWidget {
         ),
         const ResponsiveGap(large: 16),
         SimplePuzzleTitle(
-          //根据状态来显示内容
           status: state.puzzleStatus,
         ),
         const ResponsiveGap(
@@ -256,7 +253,6 @@ class SimplePuzzleTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //根据不同的puzzle状态显示不同的标题
     return PuzzleTitle(
       title: status == PuzzleStatus.complete
           ? context.l10n.puzzleCompleted
@@ -330,13 +326,11 @@ class SimplePuzzleTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-//每一个tile都是一个text button
     return SizedBox(
       height: 200,
       width: 200,
       child: OutlinedButton(
         style: OutlinedButton.styleFrom(
-          //去除边框
           padding: const EdgeInsets.all(0),
           elevation: 0,
           shape: const RoundedRectangleBorder(
@@ -362,8 +356,6 @@ class SimplePuzzleTile extends StatelessWidget {
         onPressed: state.puzzleStatus == PuzzleStatus.incomplete
             ? () => context.read<PuzzleBloc>().add(TileTapped(tile))
             : null,
-        //里面放的是这个数字
-        // child: Text(tile.value.toString()),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(10),
           child: Container(
@@ -405,7 +397,6 @@ class SimplePuzzleShuffleButton extends StatelessWidget {
             height: 17,
           ),
           const Gap(10),
-          //完成拼图的时候按钮显示‘Restart'
           if (state.puzzleStatus == PuzzleStatus.complete)
             Text(context.l10n.puzzleRestart)
           else
