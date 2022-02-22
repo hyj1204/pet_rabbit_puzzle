@@ -22,7 +22,7 @@ jobs:
 
         # Deploy Firebase Hosting
         - name: Deploy Firebase Hosting
-          uses: w9jds/firebase-action@master
+          uses: FirebaseExtended/action-hosting-deploy@v0
           with:
             args: deploy --only hosting:pet-rabbit-puzzle
           env:
