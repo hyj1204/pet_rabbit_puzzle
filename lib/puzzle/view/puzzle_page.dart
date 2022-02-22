@@ -52,7 +52,7 @@ class PuzzleView extends StatelessWidget {
         ),
         child: BlocProvider(
           //PuzzleBloc决定了这个拼图的大小
-          create: (context) => PuzzleBloc(2)
+          create: (context) => PuzzleBloc(4)
             ..add(
               PuzzleInitialized(
                 shufflePuzzle: shufflePuzzle,

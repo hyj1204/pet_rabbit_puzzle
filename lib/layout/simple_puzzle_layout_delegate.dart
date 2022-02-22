@@ -370,7 +370,7 @@ class SimplePuzzleTile extends StatelessWidget {
               decoration: BoxDecoration(
             image: DecorationImage(
                 image: AssetImage(
-                    'assets/puzzles/rabbit/tiles/rabbitImage${tile.value}.png'),
+                    'assets/puzzles/rabbit/tiles/rabbit${tile.value}.png'),
                 fit: BoxFit.cover),
           )),
         ),
