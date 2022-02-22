@@ -82,15 +82,30 @@ class _Puzzle extends StatelessWidget {
           children: [
             //构造背景
             theme.layoutDelegate.backgroundBuilder(state),
-            //滑动的组件，里面的东西的最小的高度是 可获得空间的最大高度
-            //也就是占满所有可用的空间
-            SingleChildScrollView(
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  minHeight: constraints.maxHeight,
-                ),
-                child: const _PuzzleSections(
-                  key: Key('puzzle_sections'),
+            state.showPromptImage
+                ? Container()
+                : SingleChildScrollView(
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(
+                        minHeight: constraints.maxHeight,
+                      ),
+                      child: const _PuzzleSections(
+                        key: Key('puzzle_sections'),
+                      ),
+                    ),
+                  ),
+            Positioned(
+              top: 20,
+              right: 10,
+              child: GestureDetector(
+                onTapDown: (details) =>
+                    context.read<PuzzleBloc>().add(const PuzzlePromptImage()),
+                onTapUp: (details) =>
+                    context.read<PuzzleBloc>().add(const PuzzlePromptImage()),
+                child: const Icon(
+                  Icons.help,
+                  size: 40,
+                  color: Colors.black26,
                 ),
               ),
             ),

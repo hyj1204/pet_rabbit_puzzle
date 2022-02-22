@@ -34,11 +34,10 @@ class SimplePuzzleLayoutDelegate extends PuzzleLayoutDelegate {
   @override
   Widget puzzleSectionBuilder(PuzzleState state) {
     return AnimatedSwitcher(
-      duration: const Duration(seconds: 3),
+      duration: const Duration(seconds: 2),
       child: state.puzzleStatus == PuzzleStatus.complete
           ? ClipRRect(
               borderRadius: BorderRadius.circular(10),
-              //不同尺寸的时候，显示的图片不同
               child: ResponsiveLayoutBuilder(
                 small: (_, child) => SizedBox(
                   height: 300,
@@ -92,7 +91,6 @@ class SimplePuzzleLayoutDelegate extends PuzzleLayoutDelegate {
 //背景显示的widgets
   @override
   Widget backgroundBuilder(PuzzleState state) {
-    //显示图片的模糊效果
     return Stack(children: [
       Container(
         decoration: const BoxDecoration(
@@ -100,13 +98,16 @@ class SimplePuzzleLayoutDelegate extends PuzzleLayoutDelegate {
                 image: AssetImage('images/rabbitImage.png'),
                 fit: BoxFit.cover)),
       ),
-      Positioned.fill(
-          child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-        child: Container(
-          color: Colors.white.withOpacity(0.5),
-        ),
-      )),
+      state.showPromptImage
+          ? Container()
+          : Positioned.fill(
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                child: Container(
+                  color: Colors.white.withOpacity(0.5),
+                ),
+              ),
+            )
     ]);
   }
 

@@ -14,6 +14,7 @@ class PuzzleState extends Equatable {
     this.numberOfCorrectTiles = 0,
     this.numberOfMoves = 0,
     this.lastTappedTile,
+    this.showPromptImage = false,
   });
 
   /// [Puzzle] containing the current tile arrangement.
@@ -44,6 +45,8 @@ class PuzzleState extends Equatable {
   /// added.
   final int numberOfMoves;
 
+  final bool showPromptImage;
+
   PuzzleState copyWith({
     Puzzle? puzzle,
     PuzzleStatus? puzzleStatus,
@@ -51,6 +54,7 @@ class PuzzleState extends Equatable {
     int? numberOfCorrectTiles,
     int? numberOfMoves,
     Tile? lastTappedTile,
+    bool? showPromptImage,
   }) {
     return PuzzleState(
       puzzle: puzzle ?? this.puzzle,
@@ -59,6 +63,7 @@ class PuzzleState extends Equatable {
       numberOfCorrectTiles: numberOfCorrectTiles ?? this.numberOfCorrectTiles,
       numberOfMoves: numberOfMoves ?? this.numberOfMoves,
       lastTappedTile: lastTappedTile ?? this.lastTappedTile,
+      showPromptImage: showPromptImage ?? this.showPromptImage,
     );
   }
 
@@ -70,5 +75,6 @@ class PuzzleState extends Equatable {
         numberOfCorrectTiles,
         numberOfMoves,
         lastTappedTile,
+        showPromptImage,
       ];
 }

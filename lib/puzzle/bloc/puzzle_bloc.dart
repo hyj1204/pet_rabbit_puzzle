@@ -14,12 +14,13 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
     on<PuzzleInitialized>(_onPuzzleInitialized);
     on<TileTapped>(_onTileTapped);
     on<PuzzleReset>(_onPuzzleReset);
+    on<PuzzlePromptImage>(_onPuzzlePromptImage);
   }
 
   final int _size;
 
   final Random? random;
-  
+
   //初始化拼图的时候
   void _onPuzzleInitialized(
     PuzzleInitialized event,
@@ -82,6 +83,11 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
         numberOfCorrectTiles: puzzle.getNumberOfCorrectTiles(),
       ),
     );
+  }
+
+  void _onPuzzlePromptImage(
+      PuzzlePromptImage event, Emitter<PuzzleState> emit) {
+    emit(state.copyWith(showPromptImage: !state.showPromptImage));
   }
 
   /// Build a randomized, solvable puzzle of the given size.
