@@ -23,5 +23,13 @@
     "puzzleCompleted": "Well Done!",
     "@puzzleCompleted": {
         "description": "Shown as the success state when the puzzle is completed"
+    },
+    "puzzleHint": "Click me to see the puzzle image",
+    "@puzzleCompleted": {
+        "description": "Shown on the button that prompt the puzzle completed image"
+    },
+     "puzzleHintBack": "Click me to back to the puzzle game",
+    "@puzzleCompleted": {
+        "description": "Shown on the button that back to the puzzle"
     }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_puzzle/l10n/l10n.dart';
 import 'package:flutter_puzzle/layout/layout.dart';
 import 'package:flutter_puzzle/models/models.dart';
 import 'package:flutter_puzzle/puzzle/puzzle.dart';
@@ -90,19 +91,23 @@ class _Puzzle extends StatelessWidget {
                     ),
                   ),
             Positioned(
-              top: 20,
-              right: 10,
+              top: 25,
+              right: 20,
               child: GestureDetector(
-                onTapDown: (details) =>
-                    context.read<PuzzleBloc>().add(const PuzzlePromptImage()),
-                onTapUp: (details) =>
-                    context.read<PuzzleBloc>().add(const PuzzlePromptImage()),
-                child: const Icon(
-                  Icons.help,
-                  size: 40,
-                  color: Colors.black26,
-                ),
-              ),
+                  onTapDown: (details) =>
+                      context.read<PuzzleBloc>().add(const PuzzlePromptImage()),
+                  onTapCancel: () =>
+                      context.read<PuzzleBloc>().add(const PuzzlePromptImage()),
+                  child: Tooltip(
+                    message: state.showPromptImage
+                        ? context.l10n.puzzleHintBack
+                        : context.l10n.puzzleHint,
+                    child: Icon(
+                      state.showPromptImage ? Icons.close_sharp : Icons.help,
+                      size: 40,
+                      color: Colors.black26,
+                    ),
+                  )),
             ),
           ],
         );

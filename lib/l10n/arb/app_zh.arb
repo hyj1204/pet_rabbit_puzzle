@@ -23,5 +23,13 @@
     "puzzleCompleted": "恭喜完成拼图!",
     "@puzzleCompleted": {
         "description": "Shown as the success state when the puzzle is completed"
+    },
+    "puzzleHint": "点我查看拼图原图",
+    "@puzzleHint": {
+        "description": "Shown on the button that prompt the puzzle completed image"
+    },
+    "puzzleHintBack": "点我返回拼图游戏",
+    "@puzzleHintBack": {
+        "description": "Shown on the button that back to the puzzle"
     }
 }
