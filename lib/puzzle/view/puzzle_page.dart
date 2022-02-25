@@ -65,8 +65,37 @@ class PuzzleView extends StatelessWidget {
   }
 }
 
-class _Puzzle extends StatelessWidget {
+class _Puzzle extends StatefulWidget {
   const _Puzzle({Key? key}) : super(key: key);
+
+  @override
+  State<_Puzzle> createState() => _PuzzleState();
+}
+
+class _PuzzleState extends State<_Puzzle> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+
+  late Animation _hintButtonAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 2500));
+    _hintButtonAnimation = Tween(begin: 0.0, end: 40.0).animate(CurvedAnimation(
+        parent: _controller,
+        curve: const Interval(0.0, 0.50, curve: Curves.easeIn)));
+    _controller.forward();
+    _controller.addListener(() {
+      setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,18 +107,21 @@ class _Puzzle extends StatelessWidget {
         return Stack(
           children: [
             theme.layoutDelegate.backgroundBuilder(state),
-            state.showPromptImage
-                ? Container()
-                : SingleChildScrollView(
-                    child: ConstrainedBox(
-                      constraints: BoxConstraints(
-                        minHeight: constraints.maxHeight,
-                      ),
-                      child: const _PuzzleSections(
-                        key: Key('puzzle_sections'),
-                      ),
-                    ),
+            SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: constraints.maxHeight,
+                ),
+                child: AnimatedOpacity(
+                  opacity: state.showPromptImage ? 0 : 1,
+                  duration: const Duration(milliseconds: 1500),
+                  curve: Curves.ease,
+                  child: const _PuzzleSections(
+                    key: Key('puzzle_sections'),
                   ),
+                ),
+              ),
+            ),
             Positioned(
               top: 25,
               right: 20,
@@ -104,7 +136,7 @@ class _Puzzle extends StatelessWidget {
                         : context.l10n.puzzleHint,
                     child: Icon(
                       state.showPromptImage ? Icons.close_sharp : Icons.help,
-                      size: 40,
+                      size: _hintButtonAnimation.value,
                       color: Colors.black26,
                     ),
                   )),
