@@ -5,7 +5,6 @@ import 'package:flutter_puzzle/layout/layout.dart';
 import 'package:flutter_puzzle/models/models.dart';
 import 'package:flutter_puzzle/puzzle/puzzle.dart';
 import 'package:flutter_puzzle/theme/theme.dart';
-import 'package:flutter_puzzle/timer/timer.dart';
 
 /// {@template puzzle_page}
 /// The root page of the puzzle UI.
@@ -46,19 +45,14 @@ class PuzzleView extends StatelessWidget {
     return Scaffold(
       backgroundColor: theme.backgroundColor,
       body: BlocProvider(
-        create: (context) => TimerBloc(
-          ticker: const Ticker(),
-        ),
-        child: BlocProvider(
-          create: (context) => PuzzleBloc(4)
-            ..add(
-              PuzzleInitialized(
-                shufflePuzzle: shufflePuzzle,
-              ),
+        create: (context) => PuzzleBloc(4)
+          ..add(
+            PuzzleInitialized(
+              shufflePuzzle: shufflePuzzle,
             ),
-          child: const _Puzzle(
-            key: Key('puzzle_view_puzzle'),
           ),
+        child: const _Puzzle(
+          key: Key('puzzle_view_puzzle'),
         ),
       ),
     );
@@ -202,23 +196,20 @@ class PuzzleBoard extends StatelessWidget {
     final size = puzzle.getDimension();
     if (size == 0) return const CircularProgressIndicator();
 
-    return BlocListener<PuzzleBloc, PuzzleState>(
-      listener: (context, state) {
-        if (theme.hasTimer && state.puzzleStatus == PuzzleStatus.complete) {
-          context.read<TimerBloc>().add(const TimerStopped());
-        }
+    return BlocBuilder<PuzzleBloc, PuzzleState>(
+      builder: (context, state) {
+        return theme.layoutDelegate.boardBuilder(
+          size,
+          puzzle.tiles
+              .map(
+                (tile) => _PuzzleTile(
+                  key: Key('puzzle_tile_${tile.value.toString()}'),
+                  tile: tile,
+                ),
+              )
+              .toList(),
+        );
       },
-      child: theme.layoutDelegate.boardBuilder(
-        size,
-        puzzle.tiles
-            .map(
-              (tile) => _PuzzleTile(
-                key: Key('puzzle_tile_${tile.value.toString()}'),
-                tile: tile,
-              ),
-            )
-            .toList(),
-      ),
     );
   }
 }
