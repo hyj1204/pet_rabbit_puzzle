@@ -396,7 +396,7 @@ class SimplePuzzleShuffleButton extends StatelessWidget {
             width: 17,
             height: 17,
           ),
-          const Gap(10),
+          const Gap(7),
           if (state.puzzleStatus == PuzzleStatus.complete)
             Text(context.l10n.puzzleRestart)
           else
